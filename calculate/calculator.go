@@ -64,6 +64,14 @@ func (c *Calculator) calculateSourceFileHash(sourceFile *blaze_query.SourceFile)
 	}
 	defer file.Close()
 
+	// skip if the file is a directory
+	info, err := os.Stat(fileAbsPath)
+	if info.IsDir() {
+		log.Printf("Target %s is a directory.", fileAbsPath)
+		c.LabelCache[sourceFile.GetName()] = ""
+		return ""
+	}
+	
 	checksum := sha256.New()
 	if _, err := io.Copy(checksum, file); err != nil {
 		log.Panicf("Failed to get checksum of %s", fileAbsPath)
