@@ -23,7 +23,11 @@ func GetQueryResult(workspacePath, bazel, query string) *blaze_query.QueryResult
 	err := command.Run()
 
 	if err != nil {
-		log.Println("Failed to run query")
+		log.Println("Failed to run query with error: %s", err)
+		log.Println("Args: %s", args)
+		log.Println("bazel exec: %s", bazel)
+		log.Println("context: %s", ctx)
+		log.Println("query: %s", query)
 		log.Println("Stdout:")
 		log.Println(string(stdoutBuffer.Bytes()))
 		log.Println("Stderr:")

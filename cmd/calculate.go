@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"path"
-
 	"github.com/purkhusid/biff/calculate"
 	"github.com/spf13/cobra"
 )
@@ -38,6 +36,6 @@ var calculateCmd = &cobra.Command{
 		calculator := calculate.NewCalculator(queryResult)
 		hashedTargets := calculator.CalculateHashes()
 
-		calculate.WriteResultsToFile(hashedTargets, path.Join(workspacePath, calculateOutputPathFlag))
+		calculate.WriteResultsToFile(hashedTargets, calculateOutputPathFlag)
 	},
 }
