@@ -58,7 +58,7 @@ func (c *Calculator) calculateSourceFileHash(sourceFile *blaze_query.SourceFile)
 	// Open the file for use
 	file, err := os.Open(fileAbsPath)
 	if err != nil {
-		log.Info("Skipping target: Failed to open %s", fileAbsPath)
+		fmt.Fprintf(os.Stdout, "Skipping empty target: Failed to open %s", fileAbsPath)
 		c.LabelCache[sourceFile.GetName()] = ""
 		return ""
 	}
@@ -67,7 +67,7 @@ func (c *Calculator) calculateSourceFileHash(sourceFile *blaze_query.SourceFile)
 	// skip if the file is a directory
 	info, err := os.Stat(fileAbsPath)
 	if info.IsDir() {
-		log.Info("Skipping target: Target is a directory %s", fileAbsPath)
+		fmt.Fprintf(os.Stdout, "Skipping empty target: Target is a directory %s", fileAbsPath)
 		c.LabelCache[sourceFile.GetName()] = ""
 		return ""
 	}
@@ -92,7 +92,7 @@ func (c *Calculator) calculateInputHash(label string) string {
 	target, exists := c.LabelTargets[label]
 
 	if !exists {
-		log.Info("Skipping target: Did not find target with label %s", label)
+		fmt.Fprintf(os.Stdout, "Skipping empty target: Did not find target with label %s", label)
 		return ""
 	}
 
